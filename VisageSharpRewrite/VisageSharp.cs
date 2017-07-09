@@ -93,7 +93,7 @@ namespace VisageSharpRewrite
             this.pause = Variables.Hero.ClassId != ClassId.CDOTA_Unit_Hero_Visage;
             if (this.pause) return;
             Variables.MenuManager = new MenuManager(Me.Name);
-            Variables.Familiars = ObjectManager.GetEntities<Unit>().Where(unit => unit.ClassId.Equals(ClassId.CDOTA_Unit_VisageFamiliar) && unit.IsAlive).ToList();
+            Variables.Familiars = ObjectManager.GetEntities<Unit>().Where(unit => unit.Name.Contains("npc_dota_visage_familiar") && unit.IsAlive).ToList();
             Variables.graveChill = new GraveChill(Me.Spellbook.Spell1);
             Variables.soulAssumption = new SoulAssumption(Me.Spellbook.Spell2);
             Variables.familiarControl = new FamiliarControl();
@@ -143,7 +143,7 @@ namespace VisageSharpRewrite
             {
                 return;
             }
-            Variables.Familiars = ObjectManager.GetEntities<Unit>().Where(unit => unit.ClassId.Equals(ClassId.CDOTA_Unit_VisageFamiliar) && unit.IsAlive).ToList();
+            Variables.Familiars = ObjectManager.GetEntities<Unit>().Where(unit => unit.Name.Contains("npc_dota_visage_familiar") && unit.IsAlive).ToList();
 
             if (Familiars == null) return;
             familiarAutoLastHit.Execute(Familiars);             
@@ -172,7 +172,7 @@ namespace VisageSharpRewrite
             {
                 return;
             }
-            Variables.Familiars = ObjectManager.GetEntities<Unit>().Where(unit => unit.ClassId.Equals(ClassId.CDOTA_Unit_VisageFamiliar) && unit.IsAlive && unit.Team == Me.Team).ToList();
+            Variables.Familiars = ObjectManager.GetEntities<Unit>().Where(unit => unit.Name.Contains("npc_dota_visage_familiar") && unit.IsAlive && unit.Team == Me.Team).ToList();
             if (Variables.FollowMode)
             {
                 if (Utils.SleepCheck("follow"))
@@ -196,7 +196,7 @@ namespace VisageSharpRewrite
             {
                 this.targetFind.UnlockTarget();
             }    
-            Variables.Familiars = ObjectManager.GetEntities<Unit>().Where(unit => unit.ClassId.Equals(ClassId.CDOTA_Unit_VisageFamiliar) && unit.IsAlive && unit.Team == Me.Team).ToList();
+            Variables.Familiars = ObjectManager.GetEntities<Unit>().Where(unit => unit.Name.Contains("npc_dota_visage_familiar") && unit.IsAlive && unit.Team == Me.Team).ToList();
             if (Variables.ComboOn)
             {                
                 combo.Execute(Me, Target, Familiars);       
@@ -213,7 +213,7 @@ namespace VisageSharpRewrite
                 return;
             }
             this.targetFind.Find();
-            Variables.Familiars = ObjectManager.GetEntities<Unit>().Where(unit => unit.ClassId.Equals(ClassId.CDOTA_Unit_VisageFamiliar)).ToList();
+            Variables.Familiars = ObjectManager.GetEntities<Unit>().Where(unit => unit.Name.Contains("npc_dota_visage_familiar")).ToList();
             //lasthit mode will disable follow mode
 
             
