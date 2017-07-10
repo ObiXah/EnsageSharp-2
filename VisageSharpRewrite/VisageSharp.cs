@@ -2,6 +2,7 @@
 using Ensage.Common;
 using Ensage.Common.Extensions;
 using Ensage.Common.Menu;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using VisageSharpRewrite.Abilities;
@@ -183,6 +184,29 @@ namespace VisageSharpRewrite
             }
         }
 
+        public void OnUpdate_LowHP()
+        {
+            if (this.pause || Variables.Hero == null || !Variables.Hero.IsValid || !Variables.Hero.IsAlive)
+            {
+                return;
+            }
+            Variables.Familiars = ObjectManager.GetEntities<Unit>().Where(unit => unit.Name.Contains("npc_dota_visage_familiar") && unit.IsAlive && unit.Team == Me.Team).ToList();
+
+            if (Utils.SleepCheck("lowHP"))
+            {
+                foreach (var LowHP in Familiars)
+                {
+                    if (LowHP.Health <= Variables.MenuManager.FamiliarsLowHP.GetValue<Slider>().Value
+                        && LowHP.Spellbook.SpellQ.CanBeCasted())
+                    {
+                        LowHP.Spellbook.SpellQ.UseAbility();
+                    }
+                    
+                }
+                Utils.Sleep(200, "lowHP");
+            }
+        }
+
         public void OnUpdate_Combo()
         {
             /*
@@ -195,14 +219,14 @@ namespace VisageSharpRewrite
             if (!Variables.ComboOn)
             {
                 this.targetFind.UnlockTarget();
-            }    
+            }
             Variables.Familiars = ObjectManager.GetEntities<Unit>().Where(unit => unit.Name.Contains("npc_dota_visage_familiar") && unit.IsAlive && unit.Team == Me.Team).ToList();
             if (Variables.ComboOn)
-            {                
-                combo.Execute(Me, Target, Familiars);       
+            {
+                combo.Execute(Me, Target, Familiars);
             }
 
-           
+
 
         }
 
